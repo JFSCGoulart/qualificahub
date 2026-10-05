@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Buscar Projetos</h1>
+    <p class="page-subtitle">Explore os projetos cadastrados na plataforma.</p>
+</div>
+
+<form method="get" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+    <input type="text" name="termo" value="{{ termo }}"
+           placeholder="Buscar por título ou tecnologia..."
+           style="flex: 1; min-width: 200px;">
+    <button type="submit" class="btn">Buscar</button>
+    {% if termo %}
+        <a href="{% url 'buscar_publico' %}" class="btn btn-ghost">Limpar</a>
+    {% endif %}
+</form>
+
+{% if resultados %}
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        {{ resultados|length }} projeto(s) encontrado(s).
+    </p>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Título</th><th>Área</th><th>Tecnologias</th><th>Autor</th></tr>
+            </thead>
+            <tbody>
+                {% for p in resultados %}
+                <tr>
+                    <td><strong>#{{ p.id }}</strong></td>
+                    <td>{{ p.titulo }}</td>
+                    <td><span class="badge badge-primary">{{ p.area }}</span></td>
+                    <td>{{ p.tecnologias|default:"—" }}</td>
+                    <td>{{ p.usuario.first_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% elif termo %}
+    <div class="vazio">
+        <h3>Nenhum projeto encontrado</h3>
+        <p>Não encontramos resultados para "{{ termo }}".</p>
+    </div>
+{% else %}
+    <div class="vazio">
+        <h3>Digite um termo para buscar</h3>
+        <p>Busque por título ou tecnologia.</p>
+    </div>
+{% endif %}
+{% endblock %}

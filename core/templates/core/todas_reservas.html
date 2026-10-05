@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Todas as Reservas</h1>
+    <p class="page-subtitle">Histórico completo de reservas.</p>
+</div>
+
+{% if not reservas %}
+    <div class="vazio">
+        <h3>Nenhuma reserva registrada</h3>
+    </div>
+{% else %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Sala</th><th>Usuário</th><th>Data</th><th>Horário</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for r in reservas %}
+                <tr>
+                    <td><strong>#{{ r.id }}</strong></td>
+                    <td>{{ r.sala.nome }}</td>
+                    <td>{{ r.usuario.first_name|default:r.usuario.username }}</td>
+                    <td>{{ r.data|date:"d/m/Y" }}</td>
+                    <td>{{ r.horario }}</td>
+                    <td>
+                        {% if r.status == "ativa" %}
+                            <span class="badge badge-success">Ativa</span>
+                        {% else %}
+                            <span class="badge badge-danger">Cancelada</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

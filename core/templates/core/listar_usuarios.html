@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Usuários Cadastrados</h1>
+    <p class="page-subtitle">Todos os usuários do sistema.</p>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Turma</th></tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td><strong>#{{ u.id }}</strong></td>
+                <td>{{ u.first_name|default:u.username }}</td>
+                <td>{{ u.email }}</td>
+                <td>
+                    <span class="badge {% if u.tipo == 'coordenador' %}badge-accent{% elif u.tipo == 'professor' %}badge-primary{% else %}badge-muted{% endif %}">
+                        {{ u.tipo }}
+                    </span>
+                </td>
+                <td>{{ u.turma|default:"—" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

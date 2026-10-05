@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Avaliar Projeto</h1>
+    <p class="page-subtitle">Sua opinião ajuda a comunidade.</p>
+</div>
+
+{% if not projetos %}
+    <div class="vazio">
+        <h3>Nenhum projeto disponível para avaliar</h3>
+        <p>Você já avaliou todos os projetos ou não há projetos de outros usuários.</p>
+    </div>
+{% else %}
+<div class="card card-mid">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="projeto_id">Projeto</label>
+            <select id="projeto_id" name="projeto_id" required>
+                {% for p in projetos %}
+                    <option value="{{ p.id }}">{{ p.titulo }} — {{ p.usuario.first_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nota">Nota (1 a 5)</label>
+            <input type="number" id="nota" name="nota" min="1" max="5" required>
+        </div>
+        <div class="form-group">
+            <label for="comentario">Comentário <span class="optional">(opcional)</span></label>
+            <textarea id="comentario" name="comentario" rows="3"
+                      placeholder="O que você achou do projeto?"></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-accent">Enviar Avaliação</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

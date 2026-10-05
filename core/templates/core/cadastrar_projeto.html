@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Cadastrar Projeto</h1>
+    <p class="page-subtitle">Compartilhe seu projeto com a comunidade acadêmica.</p>
+</div>
+
+<div class="card card-mid">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" required autofocus
+                   placeholder="Ex: Sistema de Biblioteca">
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" name="descricao" rows="4" required
+                      placeholder="Explique o objetivo do projeto (mínimo 20 caracteres)"></textarea>
+            <div class="form-hint">Mínimo de 20 caracteres.</div>
+        </div>
+        <div class="form-group">
+            <label for="area">Área</label>
+            <select id="area" name="area" required>
+                {% for a in areas %}<option value="{{ a }}">{{ a }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tecnologias">Tecnologias <span class="optional">(separadas por vírgula)</span></label>
+            <input type="text" id="tecnologias" name="tecnologias"
+                   placeholder="Ex: Python, Django, SQLite">
+        </div>
+        <div class="form-group">
+            <label for="ano">Ano</label>
+            <input type="number" id="ano" name="ano" value="2026" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-accent">Cadastrar Projeto</button>
+            <a href="{% url 'meus_projetos' %}" class="btn btn-ghost">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

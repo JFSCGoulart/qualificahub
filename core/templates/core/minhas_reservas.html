@@ -1,0 +1,41 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Minhas Reservas</h1>
+    <p class="page-subtitle">Reservas ativas que você criou.</p>
+</div>
+
+{% if not reservas %}
+    <div class="vazio">
+        <h3>Nenhuma reserva ativa</h3>
+        <p>Você ainda não fez nenhuma reserva.</p>
+        {% if user.tipo in "professor,coordenador" %}
+            <a href="{% url 'reservar_sala' %}" class="btn btn-accent" style="margin-top: 1rem;">Reservar agora</a>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Sala</th><th>Data</th><th>Horário</th><th>Motivo</th><th>Ações</th></tr>
+            </thead>
+            <tbody>
+                {% for r in reservas %}
+                <tr>
+                    <td><strong>#{{ r.id }}</strong></td>
+                    <td>{{ r.sala.nome }} <small>({{ r.sala.andar }}º)</small></td>
+                    <td>{{ r.data|date:"d/m/Y" }}</td>
+                    <td><span class="badge badge-accent">{{ r.horario }}</span></td>
+                    <td>{{ r.motivo|default:"—" }}</td>
+                    <td>
+                        <a href="{% url 'cancelar_reserva' r.id %}"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Cancelar esta reserva?')">Cancelar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Meus Projetos</h1>
+    <p class="page-subtitle">Projetos que você cadastrou.</p>
+</div>
+
+{% if not projetos %}
+    <div class="vazio">
+        <svg class="vazio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+        <h3>Nenhum projeto ainda</h3>
+        <p>Comece cadastrando seu primeiro projeto.</p>
+        {% if user.tipo in "professor,coordenador" %}
+            <a href="{% url 'cadastrar_projeto' %}" class="btn btn-accent" style="margin-top: 1rem;">Criar projeto</a>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th><th>Título</th><th>Área</th>
+                    <th>Tecnologias</th><th>Ano</th><th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in projetos %}
+                <tr>
+                    <td><strong>#{{ p.id }}</strong></td>
+                    <td>{{ p.titulo }}</td>
+                    <td><span class="badge badge-primary">{{ p.area }}</span></td>
+                    <td>{{ p.tecnologias|default:"—" }}</td>
+                    <td>{{ p.ano }}</td>
+                    <td>
+                        <div class="table-actions">
+                            <a href="{% url 'remover_projeto' p.id %}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Remover este projeto?')">Remover</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">Salas por Andar</h1>
+    <p class="page-subtitle">Consulte a disponibilidade das salas.</p>
+</div>
+
+{% for andar, lista in salas.items %}
+    <h2>{{ andar }}º Andar</h2>
+    <div class="table-wrapper" style="margin-bottom: 1.5rem;">
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Nome</th><th>Capacidade</th><th>Tipo</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for s in lista %}
+                <tr>
+                    <td><strong>#{{ s.id }}</strong></td>
+                    <td>{{ s.nome }}</td>
+                    <td>{{ s.capacidade }} lugares</td>
+                    <td><span class="badge badge-primary">{{ s.tipo }}</span></td>
+                    <td>
+                        {% if s.status == "ATIVA" %}
+                            <span class="badge badge-success">Ativa</span>
+                        {% else %}
+                            <span class="badge badge-danger">Inativa</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% empty %}
+    <div class="vazio">
+        <h3>Nenhuma sala cadastrada</h3>
+        <p>Aguarde o cadastro de salas pelo coordenador.</p>
+    </div>
+{% endfor %}
+{% endblock %}

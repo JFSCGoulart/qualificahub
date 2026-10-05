@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="hero">
+    {% if user.is_authenticated %}
+        <span class="badge-user">{{ user.tipo }}</span>
+        <h1>Olá, {{ user.first_name|default:user.username }}! 👋</h1>
+        <p>Use o menu acima para navegar pelo sistema.</p>
+        <div class="acoes">
+            {% if user.tipo == "coordenador" %}
+                <a href="{% url 'gerenciar_salas' %}" class="btn">Gerenciar Salas</a>
+                <a href="{% url 'todas_reservas' %}" class="btn btn-accent">Ver Reservas</a>
+            {% elif user.tipo == "professor" %}
+                <a href="{% url 'cadastrar_projeto' %}" class="btn">Novo Projeto</a>
+                <a href="{% url 'reservar_sala' %}" class="btn btn-accent">Reservar Sala</a>
+            {% else %}
+                <a href="{% url 'buscar_publico' %}" class="btn">Buscar Projetos</a>
+                <a href="{% url 'ranking' %}" class="btn btn-accent">Ver Ranking</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <h1>Bem-vindo ao Qualifica Hub</h1>
+        <p>Sistema de gestão de projetos acadêmicos, salas e reservas.</p>
+        <div class="acoes">
+            <a href="{% url 'login' %}" class="btn btn-lg">Entrar</a>
+            <a href="{% url 'cadastro' %}" class="btn btn-accent btn-lg">Criar conta</a>
+        </div>
+    {% endif %}
+</div>
+
+{% if not user.is_authenticated %}
+<div class="card card-mid">
+    <h2>Sobre o sistema</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        Plataforma para divulgação de projetos acadêmicos, avaliação por pares e gestão de salas e reservas.
+    </p>
+    <div class="form-actions">
+        <a href="{% url 'buscar_publico' %}" class="btn btn-ghost">Explorar projetos</a>
+        <a href="{% url 'ver_salas' %}" class="btn btn-ghost">Ver salas</a>
+        <a href="{% url 'ranking' %}" class="btn btn-ghost">Ranking</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

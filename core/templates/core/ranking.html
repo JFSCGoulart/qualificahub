@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1 class="com-barra">🏆 Ranking de Projetos</h1>
+    <p class="page-subtitle">Os projetos mais bem avaliados da plataforma.</p>
+</div>
+
+{% if not ranking %}
+    <div class="vazio">
+        <h3>Nenhuma avaliação registrada</h3>
+        <p>Seja o primeiro a avaliar um projeto.</p>
+    </div>
+{% else %}
+    {% for r in ranking %}
+    <div class="ranking-item">
+        <div class="posicao">{{ forloop.counter }}</div>
+        <div class="info">
+            <h3>{{ r.titulo }}</h3>
+            <small>
+                por {{ r.usuario.first_name }} • {{ r.total }} avaliação(ões) •
+                <span class="badge badge-primary">{{ r.area }}</span>
+            </small>
+        </div>
+        <div class="media">{{ r.media|floatformat:1 }}</div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

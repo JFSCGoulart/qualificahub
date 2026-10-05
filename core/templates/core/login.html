@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="auth-card">
+    <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#5263DE"/>
+        <circle cx="50" cy="50" r="18" fill="#F7EA5C"/>
+    </svg>
+    <h1>Entrar</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required autofocus
+                   placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required
+                   placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-block btn-lg">Entrar</button>
+    </form>
+    <div class="auth-footer">
+        Não tem conta? <a href="{% url 'cadastro' %}">Cadastre-se</a>
+    </div>
+</div>
+{% endblock %}
